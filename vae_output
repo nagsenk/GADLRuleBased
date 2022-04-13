@@ -1,0 +1,19 @@
+==========================================
+SLURM_CLUSTER_NAME = param-shivay
+SLURM_JOB_ACCOUNT = material_sci_tech
+SLURM_JOB_ID = 723854
+SLURM_JOB_NAME = script.sh
+SLURM_JOB_NODELIST = cn006
+SLURM_JOB_USER = parastiwari.rs.cse19.iitbhu
+SLURM_JOB_UID = 5583
+SLURM_JOB_PARTITION = standard
+SLURM_TASK_PID = 347376
+SLURM_SUBMIT_DIR = /home/parastiwari.rs.cse19.iitbhu/dual_view_review_sum-master
+SLURM_CPUS_ON_NODE = 1
+SLURM_NTASKS = 
+SLURM_TASK_PID = 347376
+==========================================
+Warning: METEOR is not configured
+CUDA is not available, fall back to CPU.
+Making log output file: exp/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220312-102910/output.log
+exp/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220312-102910

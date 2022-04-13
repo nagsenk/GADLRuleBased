@@ -1,0 +1,161 @@
+INFO:root:Parameters:
+INFO:root:word_vec_size    :    128
+INFO:root:share_embeddings    :    True
+INFO:root:v_size    :    50000
+INFO:root:encoder_type    :    rnn
+INFO:root:decoder_type    :    rnn
+INFO:root:enc_layers    :    2
+INFO:root:dec_layers    :    1
+INFO:root:encoder_size    :    256
+INFO:root:decoder_size    :    512
+INFO:root:dropout    :    0.0
+INFO:root:classifier_dropout    :    0.1
+INFO:root:residual    :    True
+INFO:root:bidirectional    :    True
+INFO:root:bridge    :    copy
+INFO:root:attn_mode    :    concat
+INFO:root:copy_attention    :    True
+INFO:root:coverage_attn    :    False
+INFO:root:review_attn    :    False
+INFO:root:lambda_coverage    :    1.0
+INFO:root:coverage_loss    :    False
+INFO:root:orthogonal_loss    :    False
+INFO:root:lambda_orthogonal    :    0.03
+INFO:root:model_type    :    multi_view_multi_task_basic
+INFO:root:classifier_type    :    word_multi_hop_attn
+INFO:root:dec_classifier_type    :    word_multi_hop_attn
+INFO:root:dec_classify_input_type    :    dec_state
+INFO:root:rating_v_size    :    200
+INFO:root:rating_memory_pred    :    False
+INFO:root:rating_memory_type    :    gold
+INFO:root:rating_bridge_type    :    None
+INFO:root:query_hidden_size    :    512
+INFO:root:detach_enc_logit_for_soft_feed    :    False
+INFO:root:data    :    datasets/processed_reviews_Sports_and_Outdoors_5
+INFO:root:train_from    :    
+INFO:root:load_from    :    research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220328-092004/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-2-total_batch-11000-joint-0.678
+INFO:root:mode    :    GA
+INFO:root:gpuid    :    -1
+INFO:root:seed    :    250
+INFO:root:delimiter    :    .
+INFO:root:src_max_len    :    400
+INFO:root:trg_max_len    :    100
+INFO:root:epochs    :    50
+INFO:root:start_epoch    :    1
+INFO:root:w2v    :    word_embeddings/sports_and_outdoors/word2vec.128d.35k.bin
+INFO:root:batch_size    :    32
+INFO:root:batch_workers    :    0
+INFO:root:max_grad_norm    :    2
+INFO:root:loss_normalization    :    tokens
+INFO:root:learning_rate    :    0.001
+INFO:root:min_lr    :    1e-05
+INFO:root:learning_rate_decay    :    0.5
+INFO:root:start_checkpoint_at    :    0
+INFO:root:start_decay_and_early_stop_at    :    2
+INFO:root:checkpoint_interval    :    1000
+INFO:root:disable_early_stop    :    False
+INFO:root:early_stop_tolerance    :    4
+INFO:root:timemark    :    20220413-192712
+INFO:root:exp    :    train_movie_dual_view_inc_seed_250.ml.copy.bi-directional
+INFO:root:exp_path    :    exp/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220413-192712
+INFO:root:model_path    :    research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220413-192712
+INFO:root:num_classes    :    5
+INFO:root:inconsistency_loss_type    :    KL_div
+INFO:root:detach_dec_incosist_loss    :    False
+INFO:root:detach_classify_dec_states    :    False
+INFO:root:inconsistency_loss_weight    :    0.1
+INFO:root:gen_loss_weight    :    0.8
+INFO:root:class_loss_weight    :    0.1
+INFO:root:class_loss_internal_enc_weight    :    1.0
+INFO:root:class_loss_internal_dec_weight    :    1.0
+INFO:root:weighted_sampling    :    False
+INFO:root:weighted_classifier_loss    :    False
+INFO:root:classifier_loss_type    :    xe
+INFO:root:early_stop_loss    :    joint
+INFO:root:stdout    :    False
+INFO:root:ordinal    :    False
+INFO:root:input_feeding    :    False
+INFO:root:copy_input_feeding    :    False
+INFO:root:device    :    cpu
+INFO:root:Time for loading the data: 0.3
+INFO:root:======================  Model Parameters  =========================
+INFO:gensim.utils:loading Word2Vec object from word_embeddings/sports_and_outdoors/word2vec.128d.35k.bin
+INFO:gensim.utils:loading wv recursively from word_embeddings/sports_and_outdoors/word2vec.128d.35k.bin.wv.* with mmap=None
+INFO:gensim.utils:setting ignored attribute vectors_norm to None
+INFO:gensim.utils:loading vocabulary recursively from word_embeddings/sports_and_outdoors/word2vec.128d.35k.bin.vocabulary.* with mmap=None
+INFO:gensim.utils:loading trainables recursively from word_embeddings/sports_and_outdoors/word2vec.128d.35k.bin.trainables.* with mmap=None
+INFO:gensim.utils:setting ignored attribute cum_table to None
+INFO:gensim.utils:loaded word_embeddings/sports_and_outdoors/word2vec.128d.35k.bin
+/home/parastiwari.rs.cse19.iitbhu/GADLRuleBased/utils/io.py:512: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at  ../torch/csrc/utils/tensor_numpy.cpp:178.)
+  embedding[i, :] = torch.Tensor(w2v['<s>'])
+INFO:root:MultiViewMultiTaskBasicClassifySeq2Seq(
+  (enc_classifier): WordMultiHopAttnClassifier(
+    (attention_layer): Attention(
+      (v): Linear(in_features=512, out_features=1, bias=False)
+      (decode_project): Linear(in_features=512, out_features=512, bias=True)
+      (memory_project): Linear(in_features=512, out_features=512, bias=False)
+      (softmax): MaskedSoftmax()
+      (tanh): Tanh()
+    )
+    (glimpse_layer): Attention(
+      (v): Linear(in_features=512, out_features=1, bias=False)
+      (decode_project): Linear(in_features=512, out_features=512, bias=True)
+      (memory_project): Linear(in_features=512, out_features=512, bias=False)
+      (softmax): MaskedSoftmax()
+      (tanh): Tanh()
+    )
+    (classifier): Sequential(
+      (0): Linear(in_features=512, out_features=512, bias=True)
+      (1): Dropout(p=0.1, inplace=False)
+      (2): ReLU()
+      (3): Linear(in_features=512, out_features=5, bias=True)
+      (4): LogSoftmax(dim=1)
+    )
+  )
+  (dec_classifier): WordMultiHopAttnClassifier(
+    (attention_layer): Attention(
+      (v): Linear(in_features=512, out_features=1, bias=False)
+      (decode_project): Linear(in_features=512, out_features=512, bias=True)
+      (memory_project): Linear(in_features=512, out_features=512, bias=False)
+      (softmax): MaskedSoftmax()
+      (tanh): Tanh()
+    )
+    (glimpse_layer): Attention(
+      (v): Linear(in_features=512, out_features=1, bias=False)
+      (decode_project): Linear(in_features=512, out_features=512, bias=True)
+      (memory_project): Linear(in_features=512, out_features=512, bias=False)
+      (softmax): MaskedSoftmax()
+      (tanh): Tanh()
+    )
+    (classifier): Sequential(
+      (0): Linear(in_features=512, out_features=512, bias=True)
+      (1): Dropout(p=0.1, inplace=False)
+      (2): ReLU()
+      (3): Linear(in_features=512, out_features=5, bias=True)
+      (4): LogSoftmax(dim=1)
+    )
+  )
+  (encoder): TwoLayerRNNEncoder(
+    (embedding): Embedding(50004, 128, padding_idx=0)
+    (dropout_layer): Dropout(p=0.0, inplace=False)
+    (first_layer_rnn): GRU(128, 256, batch_first=True, bidirectional=True)
+    (second_layer_rnn): GRU(512, 256, batch_first=True, bidirectional=True)
+  )
+  (decoder): MultiTaskBasicDecoder(
+    (dropout): Dropout(p=0.0, inplace=False)
+    (embedding): Embedding(50004, 128, padding_idx=0)
+    (rnn): GRU(128, 512)
+    (word_attention_layer): Attention(
+      (v): Linear(in_features=512, out_features=1, bias=False)
+      (decode_project): Linear(in_features=512, out_features=512, bias=True)
+      (memory_project): Linear(in_features=512, out_features=512, bias=False)
+      (softmax): MaskedSoftmax()
+      (tanh): Tanh()
+    )
+    (p_gen_linear): Linear(in_features=1152, out_features=1, bias=True)
+    (sigmoid): Sigmoid()
+    (vocab_dist_linear_1): Linear(in_features=1024, out_features=512, bias=True)
+    (vocab_dist_linear_2): Linear(in_features=512, out_features=50004, bias=True)
+    (softmax): MaskedSoftmax()
+  )
+)

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "FP.py", line 404, in <module>
+    main(opt)
+  File "FP.py", line 368, in main
+    overall_model = init_pretrained_model(opt.pretrained_model, old_opt, rating_tokens_tensor)
+  File "FP.py", line 97, in init_pretrained_model
+    overall_model.load_state_dict(torch.load(pretrained_model_path))
+  File "/home/parastiwari.rs.cse19.iitbhu/env/lib/python3.7/site-packages/torch/serialization.py", line 699, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/parastiwari.rs.cse19.iitbhu/env/lib/python3.7/site-packages/torch/serialization.py", line 231, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/parastiwari.rs.cse19.iitbhu/env/lib/python3.7/site-packages/torch/serialization.py", line 212, in __init__
+    super(_open_file, self).__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220315-020304/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-3-total_batch-13000-joint-0.693'

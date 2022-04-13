@@ -1,0 +1,504 @@
+INFO:root:Parameters:
+INFO:root:word_vec_size    :    128
+INFO:root:share_embeddings    :    True
+INFO:root:v_size    :    50000
+INFO:root:encoder_type    :    rnn
+INFO:root:decoder_type    :    rnn
+INFO:root:enc_layers    :    2
+INFO:root:dec_layers    :    1
+INFO:root:encoder_size    :    256
+INFO:root:decoder_size    :    512
+INFO:root:dropout    :    0.0
+INFO:root:classifier_dropout    :    0.1
+INFO:root:residual    :    True
+INFO:root:bidirectional    :    True
+INFO:root:bridge    :    copy
+INFO:root:attn_mode    :    concat
+INFO:root:copy_attention    :    True
+INFO:root:coverage_attn    :    False
+INFO:root:review_attn    :    False
+INFO:root:lambda_coverage    :    1.0
+INFO:root:coverage_loss    :    False
+INFO:root:orthogonal_loss    :    False
+INFO:root:lambda_orthogonal    :    0.03
+INFO:root:model_type    :    multi_view_multi_task_basic
+INFO:root:classifier_type    :    word_multi_hop_attn
+INFO:root:dec_classifier_type    :    word_multi_hop_attn
+INFO:root:dec_classify_input_type    :    dec_state
+INFO:root:rating_v_size    :    200
+INFO:root:rating_memory_pred    :    False
+INFO:root:rating_memory_type    :    gold
+INFO:root:rating_bridge_type    :    None
+INFO:root:query_hidden_size    :    512
+INFO:root:detach_enc_logit_for_soft_feed    :    False
+INFO:root:data    :    datasets/processed_reviews_Sports_and_Outdoors_5
+INFO:root:train_from    :    
+INFO:root:gpuid    :    -1
+INFO:root:seed    :    250
+INFO:root:delimiter    :    .
+INFO:root:src_max_len    :    400
+INFO:root:trg_max_len    :    100
+INFO:root:epochs    :    50
+INFO:root:start_epoch    :    1
+INFO:root:w2v    :    word_embeddings/sports_and_outdoors/word2vec.128d.35k.bin
+INFO:root:batch_size    :    32
+INFO:root:batch_workers    :    0
+INFO:root:max_grad_norm    :    2
+INFO:root:loss_normalization    :    tokens
+INFO:root:learning_rate    :    0.001
+INFO:root:min_lr    :    1e-05
+INFO:root:learning_rate_decay    :    0.5
+INFO:root:start_checkpoint_at    :    0
+INFO:root:start_decay_and_early_stop_at    :    2
+INFO:root:checkpoint_interval    :    1000
+INFO:root:disable_early_stop    :    False
+INFO:root:early_stop_tolerance    :    4
+INFO:root:timemark    :    20220327-083827
+INFO:root:exp    :    train_movie_dual_view_inc_seed_250.ml.copy.bi-directional
+INFO:root:exp_path    :    exp/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827
+INFO:root:model_path    :    research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827
+INFO:root:num_classes    :    5
+INFO:root:inconsistency_loss_type    :    KL_div
+INFO:root:detach_dec_incosist_loss    :    False
+INFO:root:detach_classify_dec_states    :    False
+INFO:root:inconsistency_loss_weight    :    0.1
+INFO:root:gen_loss_weight    :    0.8
+INFO:root:class_loss_weight    :    0.1
+INFO:root:class_loss_internal_enc_weight    :    1.0
+INFO:root:class_loss_internal_dec_weight    :    1.0
+INFO:root:weighted_sampling    :    False
+INFO:root:weighted_classifier_loss    :    False
+INFO:root:classifier_loss_type    :    xe
+INFO:root:early_stop_loss    :    joint
+INFO:root:stdout    :    False
+INFO:root:ordinal    :    False
+INFO:root:input_feeding    :    False
+INFO:root:copy_input_feeding    :    False
+INFO:root:device    :    cpu
+INFO:root:Time for loading the data: 0.3
+INFO:root:======================  Model Parameters  =========================
+INFO:gensim.utils:loading Word2Vec object from word_embeddings/sports_and_outdoors/word2vec.128d.35k.bin
+INFO:gensim.utils:loading wv recursively from word_embeddings/sports_and_outdoors/word2vec.128d.35k.bin.wv.* with mmap=None
+INFO:gensim.utils:setting ignored attribute vectors_norm to None
+INFO:gensim.utils:loading vocabulary recursively from word_embeddings/sports_and_outdoors/word2vec.128d.35k.bin.vocabulary.* with mmap=None
+INFO:gensim.utils:loading trainables recursively from word_embeddings/sports_and_outdoors/word2vec.128d.35k.bin.trainables.* with mmap=None
+INFO:gensim.utils:setting ignored attribute cum_table to None
+INFO:gensim.utils:loaded word_embeddings/sports_and_outdoors/word2vec.128d.35k.bin
+/home/parastiwari.rs.cse19.iitbhu/GADLRuleBased/utils/io.py:512: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at  ../torch/csrc/utils/tensor_numpy.cpp:178.)
+  embedding[i, :] = torch.Tensor(w2v['<s>'])
+INFO:root:MultiViewMultiTaskBasicClassifySeq2Seq(
+  (enc_classifier): WordMultiHopAttnClassifier(
+    (attention_layer): Attention(
+      (v): Linear(in_features=512, out_features=1, bias=False)
+      (decode_project): Linear(in_features=512, out_features=512, bias=True)
+      (memory_project): Linear(in_features=512, out_features=512, bias=False)
+      (softmax): MaskedSoftmax()
+      (tanh): Tanh()
+    )
+    (glimpse_layer): Attention(
+      (v): Linear(in_features=512, out_features=1, bias=False)
+      (decode_project): Linear(in_features=512, out_features=512, bias=True)
+      (memory_project): Linear(in_features=512, out_features=512, bias=False)
+      (softmax): MaskedSoftmax()
+      (tanh): Tanh()
+    )
+    (classifier): Sequential(
+      (0): Linear(in_features=512, out_features=512, bias=True)
+      (1): Dropout(p=0.1, inplace=False)
+      (2): ReLU()
+      (3): Linear(in_features=512, out_features=5, bias=True)
+      (4): LogSoftmax(dim=1)
+    )
+  )
+  (dec_classifier): WordMultiHopAttnClassifier(
+    (attention_layer): Attention(
+      (v): Linear(in_features=512, out_features=1, bias=False)
+      (decode_project): Linear(in_features=512, out_features=512, bias=True)
+      (memory_project): Linear(in_features=512, out_features=512, bias=False)
+      (softmax): MaskedSoftmax()
+      (tanh): Tanh()
+    )
+    (glimpse_layer): Attention(
+      (v): Linear(in_features=512, out_features=1, bias=False)
+      (decode_project): Linear(in_features=512, out_features=512, bias=True)
+      (memory_project): Linear(in_features=512, out_features=512, bias=False)
+      (softmax): MaskedSoftmax()
+      (tanh): Tanh()
+    )
+    (classifier): Sequential(
+      (0): Linear(in_features=512, out_features=512, bias=True)
+      (1): Dropout(p=0.1, inplace=False)
+      (2): ReLU()
+      (3): Linear(in_features=512, out_features=5, bias=True)
+      (4): LogSoftmax(dim=1)
+    )
+  )
+  (encoder): TwoLayerRNNEncoder(
+    (embedding): Embedding(50004, 128, padding_idx=0)
+    (dropout_layer): Dropout(p=0.0, inplace=False)
+    (first_layer_rnn): GRU(128, 256, batch_first=True, bidirectional=True)
+    (second_layer_rnn): GRU(512, 256, batch_first=True, bidirectional=True)
+  )
+  (decoder): MultiTaskBasicDecoder(
+    (dropout): Dropout(p=0.0, inplace=False)
+    (embedding): Embedding(50004, 128, padding_idx=0)
+    (rnn): GRU(128, 512)
+    (word_attention_layer): Attention(
+      (v): Linear(in_features=512, out_features=1, bias=False)
+      (decode_project): Linear(in_features=512, out_features=512, bias=True)
+      (memory_project): Linear(in_features=512, out_features=512, bias=False)
+      (softmax): MaskedSoftmax()
+      (tanh): Tanh()
+    )
+    (p_gen_linear): Linear(in_features=1152, out_features=1, bias=True)
+    (sigmoid): Sigmoid()
+    (vocab_dist_linear_1): Linear(in_features=1024, out_features=512, bias=True)
+    (vocab_dist_linear_2): Linear(in_features=512, out_features=50004, bias=True)
+    (softmax): MaskedSoftmax()
+  )
+)
+INFO:root:======================  Start Training  =========================
+INFO:root:Epoch 1; batch: 0; total batch: 0
+INFO:root:Epoch 1; batch: 1000; total batch: 1000
+INFO:root:Enter check point!
+INFO:root:Epoch: 1; batch idx: 1000; total batches: 1000
+INFO:root:training enc class loss: 0.890; valid enc class loss: 0.837; valid enc class f1: 0.324
+INFO:root:Epoch 1; batch: 2000; total batch: 2000
+INFO:root:Enter check point!
+INFO:root:Epoch: 1; batch idx: 2000; total batches: 2000
+INFO:root:training enc class loss: 0.776; valid enc class loss: 0.740; valid enc class f1: 0.451
+INFO:root:Epoch 1; batch: 3000; total batch: 3000
+INFO:root:Enter check point!
+INFO:root:Epoch: 1; batch idx: 3000; total batches: 3000
+INFO:root:training enc class loss: 0.753; valid enc class loss: 0.723; valid enc class f1: 0.442
+INFO:root:Epoch 1; batch: 4000; total batch: 4000
+INFO:root:Enter check point!
+INFO:root:Epoch: 1; batch idx: 4000; total batches: 4000
+INFO:root:training enc class loss: 0.719; valid enc class loss: 0.708; valid enc class f1: 0.493
+INFO:root:Epoch 1; batch: 5000; total batch: 5000
+INFO:root:Enter check point!
+INFO:root:Epoch: 1; batch idx: 5000; total batches: 5000
+INFO:root:training enc class loss: 0.720; valid enc class loss: 0.695; valid enc class f1: 0.511
+INFO:root:Epoch 2; batch: 258; total batch: 6000
+INFO:root:Enter check point!
+INFO:root:Epoch: 2; batch idx: 258; total batches: 6000
+INFO:root:training enc class loss: 0.690; valid enc class loss: 0.725; valid enc class f1: 0.426
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-2-total_batch-6000-joint-0.725
+INFO:root:Epoch 2; batch: 1258; total batch: 7000
+INFO:root:Enter check point!
+INFO:root:Epoch: 2; batch idx: 1258; total batches: 7000
+INFO:root:training enc class loss: 0.646; valid enc class loss: 0.701; valid enc class f1: 0.500
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-2-total_batch-7000-joint-0.701
+INFO:root:Epoch 2; batch: 2258; total batch: 8000
+INFO:root:Enter check point!
+INFO:root:Epoch: 2; batch idx: 2258; total batches: 8000
+INFO:root:training enc class loss: 0.641; valid enc class loss: 0.691; valid enc class f1: 0.513
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-2-total_batch-8000-joint-0.691
+INFO:root:Epoch 2; batch: 3258; total batch: 9000
+INFO:root:Enter check point!
+INFO:root:Epoch: 2; batch idx: 3258; total batches: 9000
+INFO:root:training enc class loss: 0.636; valid enc class loss: 0.723; valid enc class f1: 0.466
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 0.0005
+INFO:root:Epoch 2; batch: 4258; total batch: 10000
+INFO:root:Enter check point!
+INFO:root:Epoch: 2; batch idx: 4258; total batches: 10000
+INFO:root:training enc class loss: 0.627; valid enc class loss: 0.681; valid enc class f1: 0.505
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-2-total_batch-10000-joint-0.681
+INFO:root:Epoch 2; batch: 5258; total batch: 11000
+INFO:root:Enter check point!
+INFO:root:Epoch: 2; batch idx: 5258; total batches: 11000
+INFO:root:training enc class loss: 0.626; valid enc class loss: 0.678; valid enc class f1: 0.531
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-2-total_batch-11000-joint-0.678
+INFO:root:Epoch 3; batch: 516; total batch: 12000
+INFO:root:Enter check point!
+INFO:root:Epoch: 3; batch idx: 516; total batches: 12000
+INFO:root:training enc class loss: 0.566; valid enc class loss: 0.734; valid enc class f1: 0.516
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 0.00025
+INFO:root:Epoch 3; batch: 1516; total batch: 13000
+INFO:root:Enter check point!
+INFO:root:Epoch: 3; batch idx: 1516; total batches: 13000
+INFO:root:training enc class loss: 0.494; valid enc class loss: 0.714; valid enc class f1: 0.522
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-3-total_batch-13000-joint-0.714
+INFO:root:Epoch 3; batch: 2516; total batch: 14000
+INFO:root:Enter check point!
+INFO:root:Epoch: 3; batch idx: 2516; total batches: 14000
+INFO:root:training enc class loss: 0.500; valid enc class loss: 0.731; valid enc class f1: 0.521
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 0.000125
+INFO:root:Epoch 3; batch: 3516; total batch: 15000
+INFO:root:Enter check point!
+INFO:root:Epoch: 3; batch idx: 3516; total batches: 15000
+INFO:root:training enc class loss: 0.490; valid enc class loss: 0.751; valid enc class f1: 0.520
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 6.25e-05
+INFO:root:Epoch 3; batch: 4516; total batch: 16000
+INFO:root:Enter check point!
+INFO:root:Epoch: 3; batch idx: 4516; total batches: 16000
+INFO:root:training enc class loss: 0.483; valid enc class loss: 0.734; valid enc class f1: 0.526
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-3-total_batch-16000-joint-0.734
+INFO:root:Epoch 3; batch: 5516; total batch: 17000
+INFO:root:Enter check point!
+INFO:root:Epoch: 3; batch idx: 5516; total batches: 17000
+INFO:root:training enc class loss: 0.483; valid enc class loss: 0.736; valid enc class f1: 0.525
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 3.125e-05
+INFO:root:Epoch 4; batch: 774; total batch: 18000
+INFO:root:Enter check point!
+INFO:root:Epoch: 4; batch idx: 774; total batches: 18000
+INFO:root:training enc class loss: 0.432; valid enc class loss: 0.774; valid enc class f1: 0.529
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-4-total_batch-18000-joint-0.774
+INFO:root:Epoch 4; batch: 1774; total batch: 19000
+INFO:root:Enter check point!
+INFO:root:Epoch: 4; batch idx: 1774; total batches: 19000
+INFO:root:training enc class loss: 0.405; valid enc class loss: 0.792; valid enc class f1: 0.528
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1.5625e-05
+INFO:root:Epoch 4; batch: 2774; total batch: 20000
+INFO:root:Enter check point!
+INFO:root:Epoch: 4; batch idx: 2774; total batches: 20000
+INFO:root:training enc class loss: 0.415; valid enc class loss: 0.789; valid enc class f1: 0.531
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-4-total_batch-20000-joint-0.789
+INFO:root:Epoch 4; batch: 3774; total batch: 21000
+INFO:root:Enter check point!
+INFO:root:Epoch: 4; batch idx: 3774; total batches: 21000
+INFO:root:training enc class loss: 0.411; valid enc class loss: 0.797; valid enc class f1: 0.532
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-4-total_batch-21000-joint-0.797
+INFO:root:Epoch 4; batch: 4774; total batch: 22000
+INFO:root:Enter check point!
+INFO:root:Epoch: 4; batch idx: 4774; total batches: 22000
+INFO:root:training enc class loss: 0.414; valid enc class loss: 0.798; valid enc class f1: 0.531
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 5; batch: 32; total batch: 23000
+INFO:root:Enter check point!
+INFO:root:Epoch: 5; batch idx: 32; total batches: 23000
+INFO:root:training enc class loss: 0.413; valid enc class loss: 0.798; valid enc class f1: 0.528
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 5; batch: 1032; total batch: 24000
+INFO:root:Enter check point!
+INFO:root:Epoch: 5; batch idx: 1032; total batches: 24000
+INFO:root:training enc class loss: 0.402; valid enc class loss: 0.804; valid enc class f1: 0.528
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 5; batch: 2032; total batch: 25000
+INFO:root:Enter check point!
+INFO:root:Epoch: 5; batch idx: 2032; total batches: 25000
+INFO:root:training enc class loss: 0.403; valid enc class loss: 0.806; valid enc class f1: 0.528
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-5-total_batch-25000-joint-0.806
+INFO:root:Epoch 5; batch: 3032; total batch: 26000
+INFO:root:Enter check point!
+INFO:root:Epoch: 5; batch idx: 3032; total batches: 26000
+INFO:root:training enc class loss: 0.394; valid enc class loss: 0.812; valid enc class f1: 0.528
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 5; batch: 4032; total batch: 27000
+INFO:root:Enter check point!
+INFO:root:Epoch: 5; batch idx: 4032; total batches: 27000
+INFO:root:training enc class loss: 0.398; valid enc class loss: 0.812; valid enc class f1: 0.527
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 5; batch: 5032; total batch: 28000
+INFO:root:Enter check point!
+INFO:root:Epoch: 5; batch idx: 5032; total batches: 28000
+INFO:root:training enc class loss: 0.396; valid enc class loss: 0.812; valid enc class f1: 0.528
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-5-total_batch-28000-joint-0.812
+INFO:root:Epoch 6; batch: 290; total batch: 29000
+INFO:root:Enter check point!
+INFO:root:Epoch: 6; batch idx: 290; total batches: 29000
+INFO:root:training enc class loss: 0.400; valid enc class loss: 0.813; valid enc class f1: 0.526
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 6; batch: 1290; total batch: 30000
+INFO:root:Enter check point!
+INFO:root:Epoch: 6; batch idx: 1290; total batches: 30000
+INFO:root:training enc class loss: 0.394; valid enc class loss: 0.818; valid enc class f1: 0.528
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-6-total_batch-30000-joint-0.818
+INFO:root:Epoch 6; batch: 2290; total batch: 31000
+INFO:root:Enter check point!
+INFO:root:Epoch: 6; batch idx: 2290; total batches: 31000
+INFO:root:training enc class loss: 0.391; valid enc class loss: 0.822; valid enc class f1: 0.529
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-6-total_batch-31000-joint-0.822
+INFO:root:Epoch 6; batch: 3290; total batch: 32000
+INFO:root:Enter check point!
+INFO:root:Epoch: 6; batch idx: 3290; total batches: 32000
+INFO:root:training enc class loss: 0.392; valid enc class loss: 0.820; valid enc class f1: 0.526
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 6; batch: 4290; total batch: 33000
+INFO:root:Enter check point!
+INFO:root:Epoch: 6; batch idx: 4290; total batches: 33000
+INFO:root:training enc class loss: 0.386; valid enc class loss: 0.825; valid enc class f1: 0.527
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-6-total_batch-33000-joint-0.825
+INFO:root:Epoch 6; batch: 5290; total batch: 34000
+INFO:root:Enter check point!
+INFO:root:Epoch: 6; batch idx: 5290; total batches: 34000
+INFO:root:training enc class loss: 0.396; valid enc class loss: 0.825; valid enc class f1: 0.528
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-6-total_batch-34000-joint-0.825
+INFO:root:Epoch 7; batch: 548; total batch: 35000
+INFO:root:Enter check point!
+INFO:root:Epoch: 7; batch idx: 548; total batches: 35000
+INFO:root:training enc class loss: 0.389; valid enc class loss: 0.831; valid enc class f1: 0.525
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 7; batch: 1548; total batch: 36000
+INFO:root:Enter check point!
+INFO:root:Epoch: 7; batch idx: 1548; total batches: 36000
+INFO:root:training enc class loss: 0.387; valid enc class loss: 0.834; valid enc class f1: 0.528
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-7-total_batch-36000-joint-0.834
+INFO:root:Epoch 7; batch: 2548; total batch: 37000
+INFO:root:Enter check point!
+INFO:root:Epoch: 7; batch idx: 2548; total batches: 37000
+INFO:root:training enc class loss: 0.385; valid enc class loss: 0.835; valid enc class f1: 0.528
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 7; batch: 3548; total batch: 38000
+INFO:root:Enter check point!
+INFO:root:Epoch: 7; batch idx: 3548; total batches: 38000
+INFO:root:training enc class loss: 0.384; valid enc class loss: 0.836; valid enc class f1: 0.528
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 7; batch: 4548; total batch: 39000
+INFO:root:Enter check point!
+INFO:root:Epoch: 7; batch idx: 4548; total batches: 39000
+INFO:root:training enc class loss: 0.387; valid enc class loss: 0.836; valid enc class f1: 0.529
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-7-total_batch-39000-joint-0.836
+INFO:root:Epoch 7; batch: 5548; total batch: 40000
+INFO:root:Enter check point!
+INFO:root:Epoch: 7; batch idx: 5548; total batches: 40000
+INFO:root:training enc class loss: 0.385; valid enc class loss: 0.838; valid enc class f1: 0.527
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 8; batch: 806; total batch: 41000
+INFO:root:Enter check point!
+INFO:root:Epoch: 8; batch idx: 806; total batches: 41000
+INFO:root:training enc class loss: 0.388; valid enc class loss: 0.839; valid enc class f1: 0.524
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 8; batch: 1806; total batch: 42000
+INFO:root:Enter check point!
+INFO:root:Epoch: 8; batch idx: 1806; total batches: 42000
+INFO:root:training enc class loss: 0.378; valid enc class loss: 0.843; valid enc class f1: 0.524
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 8; batch: 2806; total batch: 43000
+INFO:root:Enter check point!
+INFO:root:Epoch: 8; batch idx: 2806; total batches: 43000
+INFO:root:training enc class loss: 0.377; valid enc class loss: 0.847; valid enc class f1: 0.526
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-8-total_batch-43000-joint-0.847
+INFO:root:Epoch 8; batch: 3806; total batch: 44000
+INFO:root:Enter check point!
+INFO:root:Epoch: 8; batch idx: 3806; total batches: 44000
+INFO:root:training enc class loss: 0.376; valid enc class loss: 0.848; valid enc class f1: 0.526
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-8-total_batch-44000-joint-0.848
+INFO:root:Epoch 8; batch: 4806; total batch: 45000
+INFO:root:Enter check point!
+INFO:root:Epoch: 8; batch idx: 4806; total batches: 45000
+INFO:root:training enc class loss: 0.381; valid enc class loss: 0.849; valid enc class f1: 0.527
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-8-total_batch-45000-joint-0.849
+INFO:root:Epoch 9; batch: 64; total batch: 46000
+INFO:root:Enter check point!
+INFO:root:Epoch: 9; batch idx: 64; total batches: 46000
+INFO:root:training enc class loss: 0.378; valid enc class loss: 0.847; valid enc class f1: 0.524
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 9; batch: 1064; total batch: 47000
+INFO:root:Enter check point!
+INFO:root:Epoch: 9; batch idx: 1064; total batches: 47000
+INFO:root:training enc class loss: 0.370; valid enc class loss: 0.857; valid enc class f1: 0.524
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 9; batch: 2064; total batch: 48000
+INFO:root:Enter check point!
+INFO:root:Epoch: 9; batch idx: 2064; total batches: 48000
+INFO:root:training enc class loss: 0.374; valid enc class loss: 0.857; valid enc class f1: 0.527
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-9-total_batch-48000-joint-0.857
+INFO:root:Epoch 9; batch: 3064; total batch: 49000
+INFO:root:Enter check point!
+INFO:root:Epoch: 9; batch idx: 3064; total batches: 49000
+INFO:root:training enc class loss: 0.372; valid enc class loss: 0.859; valid enc class f1: 0.527
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-9-total_batch-49000-joint-0.859
+INFO:root:Epoch 9; batch: 4064; total batch: 50000
+INFO:root:Enter check point!
+INFO:root:Epoch: 9; batch idx: 4064; total batches: 50000
+INFO:root:training enc class loss: 0.371; valid enc class loss: 0.862; valid enc class f1: 0.523
+INFO:root:Valid loss does not drop
+INFO:root:Balanced Accuracy Not Increased
+INFO:root:Learning rate drops to 1e-05
+INFO:root:Epoch 9; batch: 5064; total batch: 51000
+INFO:root:Enter check point!
+INFO:root:Epoch: 9; batch idx: 5064; total batches: 51000
+INFO:root:training enc class loss: 0.369; valid enc class loss: 0.860; valid enc class f1: 0.524
+INFO:root:Valid loss drops
+INFO:root:Balanced Accuracy Increased 
+INFO:root:Saving checkpoint to research/king3/ik_grp/wchen/senti_summ_models/saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220327-083827/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-9-total_batch-51000-joint-0.860
+slurmstepd: error: *** JOB 729836 ON cn154 CANCELLED AT 2022-03-31T08:37:31 DUE TO TIME LIMIT ***

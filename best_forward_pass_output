@@ -1,0 +1,18 @@
+==========================================
+SLURM_CLUSTER_NAME = param-shivay
+SLURM_JOB_ACCOUNT = comp_sci_engg
+SLURM_JOB_ID = 725362
+SLURM_JOB_NAME = best_fp.sh
+SLURM_JOB_NODELIST = cn033
+SLURM_JOB_USER = parastiwari.rs.cse19.iitbhu
+SLURM_JOB_UID = 5583
+SLURM_JOB_PARTITION = standard
+SLURM_TASK_PID = 344525
+SLURM_SUBMIT_DIR = /home/parastiwari.rs.cse19.iitbhu/GADLRuleBased
+SLURM_CPUS_ON_NODE = 40
+SLURM_NTASKS = 
+SLURM_TASK_PID = 344525
+==========================================
+Warning: METEOR is not configured
+CUDA is not available, fall back to CPU.
+start  1647500971.130697
