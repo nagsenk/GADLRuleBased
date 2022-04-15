@@ -1,16 +1,17 @@
+This is our approach to combine conventional techniques like Evolutionary Algorithms, Rule Based Systems with the contemporary approaches like Deep Learning which require relatively compute intensive training.
 
-Some of our source code are adapted from https://github.com/ChenRocks/fast_abs_rl.
-Please refer to the requirements.txt for the full dependencies. 
 
-## Datasets
+We are motivated by the work on those models wherein review summarization and sentiment classification are done in a joint framework and mutually benefit each other in improving the performance. Some portion of our source code are adapted from https://github.com/ChenRocks/fast_abs_rl, https://github.com/kenchan0226/dual_view_review_sum .
 
-The followings are the URLs of our preprocessed versions of the datasets used. 
+## Datasets Used
+
+The datasets used can be found at the below URLs
 https://www.dropbox.com/s/2b5ueuj6bqpfyvh/min_4_reviews_Sports_and_Outdoors_5.tar.gz?dl=0
 https://www.dropbox.com/s/bf1im78iz0cvpta/min_4_Toys_and_Games_5.tar.gz?dl=0
 https://www.dropbox.com/s/52wyjfz1xz4oeb4/min_4_Home_and_Kitchen_5.tar.gz?dl=0
 https://www.dropbox.com/s/a17hub5m1osdukw/min_4_Movies_and_TV_5.tar.gz?dl=0
 
-If you use these datasets, **Please cite one or both of the following papers**:
+In case you use these datasets, **Please cite the following papers**:
 
 ```
 Ups and downs: Modeling the visual evolution of fashion trends with one-class collaborative filtering
