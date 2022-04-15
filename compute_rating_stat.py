@@ -39,10 +39,6 @@ def main(data_dir, split):
         all_ratings[i] = rating
         rating_count[rating-1] += 1
 
-        #if zero_flag and rating == 1:
-        #    print(i)
-        #    zero_flag = False
-
     print("Average rating: {}".format(all_ratings.mean()))
     print("Rating count:")
     print(rating_count)
@@ -51,10 +47,7 @@ def main(data_dir, split):
     print(normalized_rating_count)
     print("Class weights")
     print(1.0/normalized_rating_count)
-    print("all ratings")
-#    for x in all_ratings:
- #       print(x)
-	
+
     all_ratings = all_ratings -1
     for x in all_ratings:                                                                                                       print(x) 
     with open(join(rating_dir, 'gold_ratings.pkl'), 'wb') as f:

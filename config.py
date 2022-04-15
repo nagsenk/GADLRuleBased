@@ -37,9 +37,6 @@ def model_opts(parser):
     # Embedding Options
     parser.add_argument('-word_vec_size', type=int, default=128,
                         help='Word embedding for both.')
-
-    #parser.add_argument('-position_encoding', action='store_true',
-    #                    help='Use a sin to mark relative words positions.')
     parser.add_argument('-share_embeddings', default=True, action='store_true',
                         help="""Share the word embeddings between encoder
                          and decoder.""")
@@ -69,23 +66,6 @@ def model_opts(parser):
                         help="Dropout probability applied in classifier.")
     parser.add_argument('-residual', action='store_true', default=False,
                         help="Use residual connection in encoder.")
-    # parser.add_argument('-input_feed', type=int, default=1,
-    #                     help="""Feed the context vector at each time step as
-    #                     additional input (via concatenation with the word
-    #                     embeddings) to the decoder.""")
-
-    #parser.add_argument('-rnn_type', type=str, default='GRU',
-    #                    choices=['LSTM', 'GRU'],
-    #                    help="""The gate type to use in the RNNs""")
-    # parser.add_argument('-residual',   action="store_true",
-    #                     help="Add residual connections between RNN layers.")
-
-    #parser.add_argument('-input_feeding', action="store_true",
-    #                    help="Apply input feeding or not. Feed the updated hidden vector (after attention)"
-    #                         "as new hidden vector to the decoder (Luong et al. 2015). "
-    #                         "Feed the context vector at each time step  after normal attention"
-    #                         "as additional input (via concatenation with the word"
-    #                         "embeddings) to the decoder.")
 
     parser.add_argument('-bidirectional', default=True,
                         action = "store_true",
@@ -100,29 +80,11 @@ def model_opts(parser):
                        choices=['general', 'concat'],
                        help="""The attention type to use:
                        dot or general (Luong) or concat (Bahdanau)""")
-    #parser.add_argument('-attention_mode', type=str, default='concat',
-    #                    choices=['dot', 'general', 'concat'],
-    #                    help="""The attention type to use:
-    #                    dot or general (Luong) or concat (Bahdanau)""")
 
     # Genenerator and loss options.
     parser.add_argument('-copy_attention', action="store_true",
                         help='Train a copy model.')
 
-    #parser.add_argument('-copy_mode', type=str, default='concat',
-    #                    choices=['dot', 'general', 'concat'],
-    #                    help="""The attention type to use: dot or general (Luong) or concat (Bahdanau)""")
-
-    #parser.add_argument('-copy_input_feeding', action="store_true",
-    #                    help="Feed the context vector at each time step after copy attention"
-    #                         "as additional input (via concatenation with the word"
-    #                         "embeddings) to the decoder.")
-
-    #parser.add_argument('-reuse_copy_attn', action="store_true",
-    #                   help="Reuse standard attention for copy (see See et al.)")
-
-    #parser.add_argument('-copy_gate', action="store_true",
-    #                    help="A gate controling the flow from generative model and copy model (see See et al.)")
 
     parser.add_argument('-coverage_attn', action="store_true",
                         help='Train a coverage attention layer.')
@@ -164,12 +126,6 @@ def model_opts(parser):
                         help='Size of encoder hidden states')
     parser.add_argument('-detach_enc_logit_for_soft_feed', action="store_true",
                         help='Detach the enc_logit when doing external soft feeding.')
-    #parser.add_argument('-manager_mode', type=int, default=1, choices=[1],
-    #                    help='Only effective in separate_present_absent. 1: two trainable vectors as the goal vectors;')
-    #parser.add_argument('-goal_vector_size', type=int, default=16,
-    #                    help='size of goal vector')
-    #parser.add_argument('-goal_vector_mode', type=int, default=0, choices=[0, 1, 2],
-    #                    help='Only effective in separate_present_absent. 0: no goal vector; 1: goal vector act as an extra input to the decoder; 2: goal vector act as an extra input to p_gen')
 
 
 def train_ml_opts(parser):
@@ -184,8 +140,6 @@ def train_ml_opts(parser):
     parser.add_argument('-mode', default="DL", type=str, help="Accepts one of DL/GA", choices=["DL", "GA"]) 
     parser.add_argument('-gpuid', default=0, type=int,
                         help="Use CUDA on the selected device.")
-    #parser.add_argument('-gpuid', default=[0], nargs='+', type=int,
-    #                    help="Use CUDA on the listed devices.")
     parser.add_argument('-seed', type=int, default=9527,
                         help="""Random seed used for the experiments
                         reproducibility.""")
@@ -216,9 +170,6 @@ def train_ml_opts(parser):
                         help='Maximum batch size')
     parser.add_argument('-batch_workers', type=int, default=4,
                         help='Number of workers for generating batches')
-    #parser.add_argument('-optim', default='adam',
-    #                    choices=['sgd', 'adagrad', 'adadelta', 'adam'],
-    #                    help="""Optimization method.""")
     parser.add_argument('-max_grad_norm', type=float, default=2,
                         help="""If the norm of the gradient vector exceeds this,
                         renormalize it to have the norm equal to
@@ -306,8 +257,6 @@ def train_rl_opts(parser):
     # GPU
     parser.add_argument('-gpuid', default=0, type=int,
                         help="Use CUDA on the selected device.")
-    # parser.add_argument('-gpuid', default=[0], nargs='+', type=int,
-    #                    help="Use CUDA on the listed devices.")
     parser.add_argument('-seed', type=int, default=9527,
                         help="""Random seed used for the experiments
                             reproducibility.""")
@@ -327,9 +276,6 @@ def train_rl_opts(parser):
                         help='Maximum batch size')
     parser.add_argument('-batch_workers', type=int, default=4,
                         help='Number of workers for generating batches')
-    # parser.add_argument('-optim', default='adam',
-    #                    choices=['sgd', 'adagrad', 'adadelta', 'adam'],
-    #                    help="""Optimization method.""")
     parser.add_argument('-max_grad_norm', type=float, default=2,
                         help="""If the norm of the gradient vector exceeds this,
                             renormalize it to have the norm equal to
@@ -352,10 +298,6 @@ def train_rl_opts(parser):
                         help="""Type of reward. 0: weighted sum of ROUGE-1, ROUGE-2, and ROUGE-L. 1: ROUGE-L """)
     parser.add_argument('-baseline', default="self", choices=["none", "self"],
                         help="The baseline in RL training. none: no baseline; self: use greedy decoding as baseline")
-    #parser.add_argument('-mc_rollouts', action="store_true", default=False,
-    #                    help="Use Monte Carlo rollouts to estimate q value. Not support yet.")
-    #parser.add_argument('-num_rollouts', type=int, default=3,
-    #                    help="The number of Monte Carlo rollouts. Only effective when mc_rollouts is True. Not supported yet")
     parser.add_argument('-n_sample', type=int, default=1,
                         help="The number of samples to draw for each input sequence. ")
     parser.add_argument('-loss_normalization', default="none", choices=['none', 'batches', 'samples'],
@@ -419,10 +361,6 @@ def predict_opts(parser):
                        help='Path to model .pt file')
     parser.add_argument('-teacher_force_evaluate', action="store_true", help="Do teacher forced evaluation on the validation dataset")
     parser.add_argument('-attn_debug', action="store_true", help="Whether to print attn for each word")
-    #parser.add_argument('-src_file', required=True,
-    #                    help="""Path to source file""")
-    #parser.add_argument('-trg_file', required=True,
-    #                    help="""Path to target file""")
     parser.add_argument('-data', required=True,
                         help="""Path prefix to test folder""")
     parser.add_argument('-split', default='test',

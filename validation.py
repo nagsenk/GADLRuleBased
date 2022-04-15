@@ -79,50 +79,20 @@ def evaluate_loss(data_loader, overall_model, classification_loss_func, opt, pri
             forward_time = time_since(start_time)
             forward_time_total += forward_time
 
-            # start_time = time.time()
-            # if decoder_dist is not None:
-            #     if opt.copy_attention:  # Compute the loss using target with oov words
-            #         generation_loss = masked_cross_entropy(decoder_dist, trg_oov, trg_mask, trg_lens,
-            #                                     opt.coverage_attn, coverage, seq2seq_attention_dist, opt.lambda_coverage, coverage_loss=False)
-            #     else:  # Compute the loss using target without oov words
-            #         generation_loss = masked_cross_entropy(decoder_dist, trg, trg_mask, trg_lens,
-            #                                     opt.coverage_attn, coverage, seq2seq_attention_dist, opt.lambda_coverage, coverage_loss=False)
-            # else:
-            #     generation_loss = torch.Tensor([0.0]).to(opt.device)
-
-            # # normalize generation loss
-            # num_trg_tokens = sum(trg_lens)
-            # normalized_generation_loss = generation_loss.div(num_trg_tokens)
-
-            # # compute loss of classification
-            # if print_incon_stats:
-            #     assert isinstance(classifier_logit, tuple)
-
+           
             if classifier_logit is not None:
                 if isinstance(classifier_logit, tuple):
                     # from multi_view_model
                     enc_classifier_logit = classifier_logit[0]
-                    # dec_classifier_logit = classifier_logit[1]
                     enc_normalized_classification_loss = classification_loss_func(classifier_logit[0], rating)  # normalized by batch size already
-                    # dec_normalized_classification_loss = classification_loss_func(classifier_logit[1], rating)  # normalized by batch size already
-                    # compute loss of inconsistency for the multi view model
-                    # if opt.inconsistency_loss_type != "None" or print_incon_stats:
-                    #     inconsistency_loss = inconsistency_loss_func(classifier_logit[0], classifier_logit[1],
-                    #                                                  opt.inconsistency_loss_type, opt.detach_dec_incosist_loss)
-                    # else:
-                    #     inconsistency_loss = torch.Tensor([0.0]).to(opt.device)
+                   
                 else:
                     enc_classifier_logit = classifier_logit
-                    # dec_classifier_logit = None
                     enc_normalized_classification_loss = classification_loss_func(classifier_logit, rating)  # normalized by batch size already
-                    # dec_normalized_classification_loss = torch.Tensor([0.0]).to(opt.device)
-                    # inconsistency_loss = torch.Tensor([0.0]).to(opt.device)
+
             else:
                 enc_classifier_logit = None
-                # dec_classifier_logit = None
                 enc_normalized_classification_loss = torch.Tensor([0.0]).to(opt.device)
-                # dec_normalized_classification_loss = torch.Tensor([0.0]).to(opt.device)
-                # inconsistency_loss = torch.Tensor([0.0]).to(opt.device)
 
             total_normalized_classification_loss = enc_normalized_classification_loss 
 
@@ -130,58 +100,28 @@ def evaluate_loss(data_loader, overall_model, classification_loss_func, opt, pri
             if enc_rating_preds is None and dec_rating_preds is None:
                 if opt.ordinal:
                     enc_rating_preds = binary_results_to_rating_preds(enc_classifier_logit.detach().cpu().numpy()) if enc_classifier_logit is not None else None
-                    # dec_rating_preds = binary_results_to_rating_preds(dec_classifier_logit.detach().cpu().numpy()) if dec_classifier_logit is not None else None
                 else:
                     enc_rating_preds = enc_classifier_logit.detach().cpu().numpy() if enc_classifier_logit is not None else None
-                    # dec_rating_preds = dec_classifier_logit.detach().cpu().numpy() if dec_classifier_logit is not None else None
-                    # if print_incon_stats:
-                    #     incon_loss_preds = inconsistency_loss.detach().cpu().numpy()
+ 
                 out_label_ids = rating.detach().cpu().numpy()
             else:
                 if opt.ordinal:
                     enc_rating_preds = np.append(enc_rating_preds, binary_results_to_rating_preds(enc_classifier_logit.detach().cpu().numpy()), axis=0) if enc_classifier_logit is not None else None
-                    # dec_rating_preds = np.append(dec_rating_preds, binary_results_to_rating_preds(dec_classifier_logit.detach().cpu().numpy()), axis=0) if dec_classifier_logit is not None else None
                 else:
                     enc_rating_preds = np.append(enc_rating_preds, enc_classifier_logit.detach().cpu().numpy(), axis=0) if enc_classifier_logit is not None else None
-                    # dec_rating_preds = np.append(dec_rating_preds, dec_classifier_logit.detach().cpu().numpy(), axis=0) if dec_classifier_logit is not None else None
-                    # if print_incon_stats:
-                    #     incon_loss_preds = np.append(incon_loss_preds, inconsistency_loss.detach().cpu().numpy(), axis=0)
+                
                 out_label_ids = np.append(out_label_ids, rating.detach().cpu().numpy(), axis=0)
             # joint loss
             joint_loss =  total_normalized_classification_loss
             loss_compute_time = time_since(start_time)
             loss_compute_time_total += loss_compute_time
 
-            # classification_loss_sum += total_normalized_classification_loss
             enc_classification_loss_sum += enc_normalized_classification_loss
-            # dec_classification_loss_sum += dec_normalized_classification_loss
-            # inconsist_loss_sum += inconsistency_loss
             joint_loss_sum += joint_loss.item()
-            # generation_loss_sum += generation_loss.item()
-            # total_trg_tokens += num_trg_tokens
-
-    # if not opt.ordinal:
-        # merged preds
-        # if enc_rating_preds is not None:
-            # merged_rating_preds = (enc_rating_preds + dec_rating_preds) / 2
-            # merged_rating_preds = np.argmax(merged_rating_preds, axis=1)
-        # else:
-            # merged_rating_preds = None
     enc_rating_preds = np.argmax(enc_rating_preds, axis=1) if enc_rating_preds is not None else None
-        # dec_rating_preds = np.argmax(dec_rating_preds, axis=1) if dec_rating_preds is not None else None
 
-    # if print_incon_stats:
-        # inconsistency_statistics(out_label_ids, enc_rating_preds, dec_rating_preds, merged_rating_preds)
-    # print("enc_rating_preds")
-    # print(enc_rating_preds)
-    # print("out_label_ids")
-    # print(out_label_ids)
-	#TODO revert
-    #enc_classification_result = acc_and_macro_f1(enc_rating_preds, out_label_ids) if enc_rating_preds is not None else {"acc": 0.0, "f1": 0.0, "acc_and_f1": 0.0}
-    enc_classification_result = balanced_acc_and_macro_f1(enc_rating_preds, out_label_ids) if enc_rating_preds is not None else {"acc": 0.0, "f1": 0.0, "acc_and_f1": 0.0}    
-# dec_classification_result = acc_and_macro_f1(dec_rating_preds, out_label_ids) if dec_rating_preds is not None else None
+    enc_classification_result = balanced_acc_and_macro_f1(enc_rating_preds, out_label_ids) if enc_rating_preds is not None else {"acc": 0.0, "f1": 0.0, "acc_and_f1": 0.0}   
     loss_stat = JointLossStatistics(joint_loss_sum,0, enc_classification_loss_sum, 0, 0, total_num_iterations, total_trg_tokens, forward_time=forward_time_total, loss_compute_time=loss_compute_time_total)
-    # joint_loss=0.0, generation_loss=0.0, classification_loss=0.0, n_iterations=0, n_tokens=0, forward_time=0.0, loss_compute_time=0.0, backward_time=0.0
 
     return loss_stat, enc_classification_result
 

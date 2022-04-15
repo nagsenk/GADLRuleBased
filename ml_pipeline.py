@@ -31,12 +31,8 @@ def train_model(overall_model, optimizer_ml, train_data_loader, valid_data_loade
     total_batch = -1
     early_stop_flag = False
 
-    #total_train_loss_statistics = JointLossStatistics()
     report_train_loss_statistics = JointLossStatistics()
-    #report_train_ppl = []
-    #report_valid_ppl = []
-    #report_train_loss = []
-    #report_valid_loss = []
+
     best_valid_joint_loss = float('inf')
     num_stop_dropping = 0
 
@@ -81,8 +77,7 @@ def train_model(overall_model, optimizer_ml, train_data_loader, valid_data_loade
                     overall_model.train()
                     valid_enc_class_loss = valid_loss_stat.enc_classification_loss()
                     valid_joint_loss = valid_loss_stat.joint_loss()
-              #TODO revert  
-                    #valid_enc_f1 = valid_class_result['f1']
+
                     valid_enc_f1 = valid_class_result['acc']
                     valid_f1 = valid_enc_f1
                    
@@ -106,11 +101,10 @@ def train_model(overall_model, optimizer_ml, train_data_loader, valid_data_loade
                         raise ValueError
 
                     if epoch >= opt.start_decay_and_early_stop_at:
-                   	#TODO revert 
+
                         if current_valid_loss < previous_valid_loss: # update the best valid loss and save the model parameters
-                        #if valid_enc_f1 > previous_valid_enc_f1: # update the best valid loss and save the model parameters
+
                             logging.info("Valid loss drops")
-                            #logging.info("Balanced Accuracy Increased ")
                             sys.stdout.flush()
                             num_stop_dropping = 0
                             check_pt_model_path = os.path.join(opt.model_path, 'ckpt', '%s-epoch-%d-total_batch-%d-%s-%.3f' % (
@@ -122,7 +116,6 @@ def train_model(overall_model, optimizer_ml, train_data_loader, valid_data_loade
                             logging.info('Saving checkpoint to %s' % check_pt_model_path)
                         else:
                             logging.info("Valid loss does not drop")
-                            #logging.info("Balanced Accuracy Not Increased")
                             sys.stdout.flush()
                             num_stop_dropping += 1
                             # decay the learning rate by a factor
@@ -139,9 +132,8 @@ def train_model(overall_model, optimizer_ml, train_data_loader, valid_data_loade
                         previous_valid_joint_loss = valid_joint_loss
                         previous_valid_enc_f1 = valid_enc_f1
 
-			#TODO revert
+
                         best_condition1 = opt.early_stop_loss == 'joint' and valid_joint_loss < final_best_valid_joint_loss
-                        #best_condition1 = opt.early_stop_loss == 'joint' and valid_enc_f1 > final_correspond_enc_class_f1 
                         if best_condition1 :
                             best_valid_joint_loss = valid_joint_loss
                             final_best_valid_joint_loss = valid_joint_loss
@@ -157,7 +149,6 @@ def train_model(overall_model, optimizer_ml, train_data_loader, valid_data_loade
 
                     report_train_loss_statistics.clear()
     logging.info("final_correspond_enc_class_loss: %.3f" % final_correspond_enc_class_loss)
-  #  logging.info("final_correspond_enc_class_f1: %.3f" % final_correspond_enc_class_f1)
     logging.info("final_correspond_enc_class_balancy: %.3f" % final_correspond_enc_class_f1)
     remove_old_ckpts(opt.model_path, reverse=False)
 
@@ -221,106 +212,34 @@ def train_one_batch(batch, overall_model, optimizer, opt, global_step, classific
     forward_time = time_since(start_time)
 
     start_time = time.time()
-    # compute loss for generation
-    # if decoder_dist is not None:
-    #     if opt.copy_attention:  # Compute the loss using target with oov words
-    #         generation_loss = masked_cross_entropy(decoder_dist, trg_oov, trg_mask, trg_lens,
-    #                          opt.coverage_attn, coverage, seq2seq_attention_dist, opt.lambda_coverage, opt.coverage_loss)
-    #     else:  # Compute the loss using target without oov words
-    #         generation_loss = masked_cross_entropy(decoder_dist, trg, trg_mask, trg_lens,
-    #                                     opt.coverage_attn, coverage, seq2seq_attention_dist, opt.lambda_coverage, opt.coverage_loss)
-    # else:
-        # RnnEncSingleClassifier model
-        # assert opt.class_loss_internal_enc_weight == 1.0
-        # assert opt.class_loss_weight == 1.0
-        # generation_loss = torch.Tensor([0.0]).to(opt.device)
-
-    # if math.isnan(generation_loss.item()):
-        # logging.info("global_step: %d" % global_step)
-        # logging.info("src")
-        # logging.info(src)
-        # logging.info(src_oov)
-        # logging.info(src_str_list)
-        # logging.info(src_lens)
-        # logging.info(src_mask)
-        # logging.info("trg")
-        # logging.info(trg)
-        # logging.info(trg_oov)
-        # logging.info(trg_sent_2d_list)
-        # logging.info(trg_lens)
-        # logging.info(trg_mask)
-        # logging.info("oov list")
-        # logging.info(oov_lists)
-        # logging.info("Decoder")
-        # logging.info(decoder_dist)
-        # logging.info(h_t)
-        # logging.info(seq2seq_attention_dist)
-        # raise ValueError("Generation loss is NaN")
-
-    # normalize generation loss
-    # total_trg_tokens = sum(trg_lens)
-    # if opt.loss_normalization == "tokens": # use number of target tokens to normalize the loss
-    #     generation_loss_normalization = total_trg_tokens
-    # elif opt.loss_normalization == 'batches': # use batch_size to normalize the loss
-    #     generation_loss_normalization = batch_size
-    # else:
-    #     raise ValueError('The type of loss normalization is invalid.')
-    # assert generation_loss_normalization > 0, 'normalization should be a positive number'
-    # normalized_generation_loss = generation_loss.div(generation_loss_normalization)
 
     # compute loss of classification
     if classifier_logit is not None:
         if isinstance(classifier_logit, tuple):
-            # from multi_view_model
             enc_normalized_classification_loss = classification_loss_func(classifier_logit[0], rating)  # normalized by batch size already
-            # dec_normalized_classification_loss = classification_loss_func(classifier_logit[1], rating)  # normalized by batch size already
-            # # compute loss of inconsistency for the multi view model
-            # if opt.inconsistency_loss_type != "None":
-            #     inconsistency_loss = inconsistency_loss_func(classifier_logit[0], classifier_logit[1], opt.inconsistency_loss_type, opt.detach_dec_incosist_loss)
-            # else:
-            #     inconsistency_loss = torch.Tensor([0.0]).to(opt.device)
+
         else:
             enc_normalized_classification_loss = classification_loss_func(classifier_logit, rating)  # normalized by batch size already
-            # dec_normalized_classification_loss = torch.Tensor([0.0]).to(opt.device)
-            # inconsistency_loss = torch.Tensor([0.0]).to(opt.device)
+
     else:
         enc_normalized_classification_loss = torch.Tensor([0.0]).to(opt.device)
-        # dec_normalized_classification_loss = torch.Tensor([0.0]).to(opt.device)
-        # inconsistency_loss = torch.Tensor([0.0]).to(opt.device)
-
-    # total_normalized_classification_loss = opt.class_loss_internal_enc_weight * enc_normalized_classification_loss + \
-                                           # opt.class_loss_internal_dec_weight * dec_normalized_classification_loss
-
-    # joint_loss = opt.gen_loss_weight * normalized_generation_loss + opt.class_loss_weight * total_normalized_classification_loss + opt.inconsistency_loss_weight * inconsistency_loss
 
     loss_compute_time = time_since(start_time)
 
     start_time = time.time()
     # back propagation on the joint loss
     enc_normalized_classification_loss.backward()
-    #print("classifier_logit")
-    #print(classifier_logit)
-    #print("enc_normalized_classification_loss")
-    #print(enc_normalized_classification_loss)
-    # joint_loss=enc_normalized_classification_loss
 
     backward_time = time_since(start_time)
 
     if opt.max_grad_norm > 0:
         grad_norm_before_clipping = nn.utils.clip_grad_norm_(overall_model.parameters(), opt.max_grad_norm)
-        # grad_norm_after_clipping = (sum([p.grad.data.norm(2) ** 2 for p in model.parameters() if p.grad is not None])) ** (1.0 / 2)
-        # logging.info('clip grad (%f -> %f)' % (grad_norm_before_clipping, grad_norm_after_clipping))
 
     optimizer.step()
 
     # log each loss to tensorboard
     if tb_writer is not None:
         tb_writer.add_scalar('enc_classification_loss', enc_normalized_classification_loss.item(), global_step)
-        # tb_writer.add_scalar('dec_classification_loss', dec_normalized_classification_loss.item(), global_step)
-        # tb_writer.add_scalar('inconsistency_loss', inconsistency_loss.item(), global_step)
-        # tb_writer.add_scalar('total_classification_loss', total_normalized_classification_loss.item(), global_step)
-        # tb_writer.add_scalar('generation_loss', normalized_generation_loss.item(), global_step)
-        # tb_writer.add_scalar('joint_loss', joint_loss.item(), global_step)
 
     # construct a statistic object for the loss
     stat = JointLossStatistics(enc_normalized_classification_loss.item(),0.0, enc_normalized_classification_loss.item(), 0.0, 0.0,

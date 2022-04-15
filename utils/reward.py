@@ -167,18 +167,6 @@ def compute_pg_loss(log_likelihood, output_mask, q_val_sample):
 
 
 if __name__ == "__main__":
-    #reward = np.array([[1,3,5,6],[2,3,5,9]])
-    #print(shape_reward(reward))
-
-    #pred_str_list = [['multi', 'agent', 'system'], ['agent', 'warning'], ['multi', 'agent'], ['agent'], ['agent', 'system'], ['multi', 'system'], ['what', 'is']]
-    #trg_str_list = [['multi', 'agent', 'system'], ['multi'], ['what', 'is']]
-    #print(compute_match_result_new(trg_str_list, pred_str_list, type='exact'))
-    #print(compute_match_result_new(trg_str_list, pred_str_list, type='sub'))
-    #print(compute_match_result_new(trg_str_list, pred_str_list, type='exact', dimension=2))
-    #print(compute_match_result_new(trg_str_list, pred_str_list, type='sub', dimension=2))
-
-    #r = np.array([2, 1, 2, 0])
-    #print(ndcg_at_k(r, 4, method=1))  # 0.96519546960144276
 
     r_2d = np.array([[0, 0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                      [0, 0, 0, 0, 0, 0, 1, 0, 0, 0], [1, 1, 1, 0 ,0 ,0 ,0 ,0 ,0 ,0], [0, 0, 0, 0, 1, 1, 0, 1, 0, 0]])

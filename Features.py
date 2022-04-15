@@ -38,8 +38,6 @@ def Feature1(ReviewText):
 	norm=np.linalg.norm(result)
 
 	result=result/(d-1)
-#	print(result)
-#	print(ReviewText)
 	return result
 
 def Feature2(ReviewText):
@@ -48,15 +46,12 @@ def Feature2(ReviewText):
 		tokens = nltk.word_tokenize(sent.lower())
 		text = nltk.Text(tokens)
 		tags = nltk.pos_tag(text)
-		#print(tags)
 		counts = Counter(tag for word,tag in tags)
 		total = sum(counts.values())
 		ct=counts['JJ']
 		ct=float(ct)
-		#print(ct)
 		total=float(total)
 		result=np.append(result, ct/total)
-#	print(result)
 	return result
 
 def Feature3(ReviewText):
@@ -66,8 +61,6 @@ def Feature3(ReviewText):
 			result=np.append(result,1)
 		else:
 			result=np.append(result,0)
-#	print("&&&&&&&&&&&&&&&&&&&&")
-#	print(result)
 	return result
 
 def Feature4(ReviewText):
@@ -81,16 +74,12 @@ def Feature4(ReviewText):
                 for x in tokens:
                                 if(x.isnumeric()):
                                         c+=1
-                #print(sent)
-                #print(c)
-                #print(tw)
                 result=np.append(result,c/tw)
         maxv=np.amax(result)
         if maxv>0.0:
         	result=result/maxv
-        return result
-#
- #                                                                          l1=[];l2=[]                                                                                                                                                                                                                                  x_set={w for w in x if not w in sw}                                                                                                                                                                                                          y_set={w for w in y if not w in sw}                                                                                                                                                                                                          rvector=x_set.union(y_set)                                                                                                                                                                                                                   for w in rvector:                                                                                                                                                                                                                                    if w in x: l1.append(1)                                                                                                                                                                                                                      else: l1.append(0)                                                                                                                                                                                                                           if w in y: l2.append(1)                                                                                                                                                                                                                      else: l2.append(0)                                                                                                                                                                                                              
+        return result      
+                                                                                                                                                                                                                              x_set={w for w in x if not w in sw}                                                                                                                                                                                                          y_set={w for w in y if not w in sw}                                                                                                                                                                                                          rvector=x_set.union(y_set)                                                                                                                                                                                                                   for w in rvector:                                                                                                                                                                                                                                    if w in x: l1.append(1)                                                                                                                                                                                                                      else: l1.append(0)                                                                                                                                                                                                                           if w in y: l2.append(1)                                                                                                                                                                                                                      else: l2.append(0)                                                                                                                                                                                                              
 def Feature5(ReviewText):
         result=np.array([])
         for sent1 in ReviewText:
@@ -104,10 +93,6 @@ def Feature5(ReviewText):
         if maxv>0.0:
         	result=result/maxv
         return result
-
- 
-# def Feature4(ReviewText):
-# 	for sent in ReviewText:
 
 def CosineUtil(s1, s2):        
 	x= nltk.word_tokenize(s1)
@@ -126,10 +111,8 @@ def CosineUtil(s1, s2):
 	for i in range(len(rvector)):
                 c+= l1[i]*l2[i]
 	cosine=c/float((sum(l1)*sum(l2))**0.5)
-	return cosine# 		for x in corpus:
-# 			if x in sent:
+	return cosine
 
-# def Feature5(ReviewText):
 def Feature6(ReviewText):
         result=np.array([])
         score=0.0
@@ -139,8 +122,6 @@ def Feature6(ReviewText):
                         if sent1 != sent2:
                                 score+=CosineUtil(sent1,sent2)
                 result=np.append(result,score)
-        #print("RESULT")
-        #print(result)
         maxv=np.amax(result)
         if maxv>0.0:
         	result=result/maxv
@@ -170,16 +151,12 @@ def Feature7(ReviewText):
         sorted_d = dict( sorted(counts2.items(), key=operator.itemgetter(1),reverse=True))
         c=0
         l=[]
-        #print("COUNTS")
-        #print(counts)
-        #print("COUNTS@")
-        #print(sorted_d)
         for key in sorted_d:
                 if c>5:
                         break
                 l.append(key)
                 c+=1
-        #print(l)
+
         for sent in ReviewText:
                 ct=0.0
                 
@@ -293,8 +270,6 @@ def Feature8(ReviewText):
         vectorizer = TfidfVectorizer()
         X = vectorizer.fit_transform(ReviewText)
         X=X.toarray()
-        #print("XXXXXXXXXXXXXXXXXXXXXXXXXX")
-        #print(X)
         for sent in X:
                 result=np.append(result, np.sum(sent))
         maxv=np.amax(result)
@@ -305,12 +280,6 @@ def Feature9(ReviewText):
         result=np.array([])
         with open('pos.pkl','rb') as f:
                 pos=pickle.load(f)
-        #for w in pos:
-         #       print(type(w))
-        #print("CHECKING IF")
-        #print(type(pos))
-        #if "love" in pos:
-        #        print("YESSSSSSSSSSSSSSSSSSSSS")
         c=0.0
         for sent in ReviewText:
                 sent2=sent.lower()
@@ -343,4 +312,3 @@ def Feature10(ReviewText):
 	if maxv>0:
 		result=result/maxv
 	return result
-#print(count_doc_per_words

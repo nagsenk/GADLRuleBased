@@ -151,21 +151,21 @@ def F(X):
     F1.append(D['f1'])
     Balanced_Accuracy.append(D['acc'])
 
-    with open('F1.pkl','wb') as f:
+    with open('f1_score.pkl','wb') as f:
         pickle.dump(F1,f)
-    with open('BA.pkl','wb') as f:
+    with open('balanced_accuracy_score.pkl','wb') as f:
         pickle.dump(Balanced_Accuracy,f)    
    
     closs.append(D['acc_and_f1'])
     sloss.append(rouge_total/total_samples)
     tloss.append(D['acc_and_f1']+rouge_total/total_samples)
-    with open('sloss.pkl','wb') as f:
+    with open('rouge_scores.pkl','wb') as f:
         pickle.dump(sloss,f)
-    with open('closs.pkl','wb') as f:
+    with open('classification_scores.pkl','wb') as f:
         pickle.dump(closs,f)
-    with open('feats.pkl','wb') as f:
+    with open('feature_vectors.pkl','wb') as f:
         pickle.dump(feats,f)
-    with open('tloss.pkl','wb') as f:
+    with open('total_scores.pkl','wb') as f:
         pickle.dump(tloss,f)
     
     return -(rouge_total/total_samples+ D['acc_and_f1'])

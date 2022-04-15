@@ -17,23 +17,6 @@ bottom_list = [5, 0, 5, 50]
 top_list = [20, 15, 20, 65]
 objects = ('0.01', '0.03', '0.1', '0.3', '1.0')
 y_pos = np.arange(len(objects))
-# plot_results = incon_weight_results
-# for i in range(2):
-#     for j in range(2):
-#         plot_num = i * 2 + j + 1
-#         plt.subplot(2, 2, plot_num)
-#         bottom = bottom_list[plot_num - 1]
-#         top = top_list[plot_num - 1]
-#         key = key_list[plot_num - 1]
-#         performance = plot_results[key]
-#         # performance = [value - bottom for value in plot_results[key]]
-#         # plt.bar(y_pos, performance, align='center', alpha=0.5, bottom=bottom)
-#         plt.plot(y_pos, performance, alpha=0.5)
-#         plt.ylim(ymin=bottom)
-#         plt.ylim(ymax=top)
-#         plt.xticks(y_pos, objects)
-#         plt.ylabel(key)
-#         plt.xlabel(r'$\gamma_4$')
 
 plt.subplot(2, 2, 1)
 bottom = 5

@@ -224,12 +224,7 @@ def main(opt):
         load_data_time = time_since(start_time)
         train_data_loader, valid_data_loader, class_weights = build_loader(opt.data, opt.batch_size, word2idx, opt.src_max_len, opt.trg_max_len, opt.batch_workers, opt.weighted_sampling)
         logging.info('Time for loading the data: %.1f' % load_data_time)
-        #print("train data loader")
-        #print(train_data_loader)
-        #print("valid data loader")
-        #print(valid_data_loader)
-        #print("class weights")
-        #print(class_weights)
+
         with open('word2idx.pkl','wb') as f:
                 pkl.dump(word2idx,f)
         # construct model
@@ -241,8 +236,7 @@ def main(opt):
         optimizer_ml = torch.optim.Adam(params=filter(lambda p: p.requires_grad, overall_model.parameters()), lr=opt.learning_rate)
 
         # construct loss function
-        #print(class_weights)
-        #exit()
+
         if opt.classifier_loss_type == "ordinal_mse":
             train_classification_loss_func = OrdinalMSELoss(opt.num_classes, device=opt.device)
             val_classification_loss_func = train_classification_loss_func
