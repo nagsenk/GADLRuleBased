@@ -146,6 +146,6 @@ python forward_pass.py \
 -src_max_len -1
 ```
 
-- Run evaluate prediction to compute ROGUE scores, macro F1, and balanced accuracy. The reported macro F1 and balanced accuracy are results from our source-view sentiment classifier. 
+- Run evaluate prediction to compute ROGUE scores, macro F1, and balanced accuracy. 
 `python evaluate_prediction.py -rouge -decode_dir pred/predict_dual_view_inc_seed_250.20190901-160022 -data datasets/processed_reviews_Sports_and_Outdoors_5`
 
