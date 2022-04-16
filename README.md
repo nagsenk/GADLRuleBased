@@ -117,7 +117,7 @@ Once the Genetic Algorithm has completed its execution, There will be following 
 
 In our case we chose the corresponding feature vector from 'feature_vectors.pkl' that gave the highest total score in 'total_score.pkl'. Because in our case we wanted those feature vectors that are optimal for both summarization and sentiment classification. 
 
-This feature need to be dumped in file weight.pkl for which dump_weights.pkl can be used setting the feature vector in the script and running the following command
+This feature need to be dumped in file weight.pkl for which dump_weights.py can be used setting the feature vector in the script and running the following command
 
 ```
 python3 dump_weights.py
