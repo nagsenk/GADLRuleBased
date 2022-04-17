@@ -11,7 +11,7 @@ https://www.dropbox.com/s/bf1im78iz0cvpta/min_4_Toys_and_Games_5.tar.gz?dl=0
 https://www.dropbox.com/s/52wyjfz1xz4oeb4/min_4_Home_and_Kitchen_5.tar.gz?dl=0
 https://www.dropbox.com/s/a17hub5m1osdukw/min_4_Movies_and_TV_5.tar.gz?dl=0
 
-In case you use these datasets, **Please cite the following papers**:
+If you use the above mentioned datasets, ensure to cite the below two papers:
 
 ```
 Ups and downs: Modeling the visual evolution of fashion trends with one-class collaborative filtering
@@ -23,7 +23,7 @@ J. McAuley, C. Targett, J. Shi, A. van den Hengel
 SIGIR, 2015
 ```
 
-## Training
+## Classifier Training and Genetic Algorithm for optimal weights search
 
 - Compute and export the class distribution on the training set, which will be used by the training script. 
 `python3 compute_rating_stat.py -data_dir datasets/processed_reviews_Sports_and_Outdoors_5 -split train`
@@ -75,7 +75,7 @@ Getting Optimal weights using the Genetic Algorithm('GA' mode) ==> To run in thi
 ```
 python3 train_ml.py \
 -mode=GA \
--load_from=saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20191212-154843/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-2-total_batch-75000-joint-2.640 \ 
+-load_from=saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220315-020304/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-3-total_batch-13000-joint-0.693 \ 
 -data=datasets/processed_reviews_Sports_and_Outdoors_5 \
 -exp_path=exp/%s.%s \
 -exp=train_movie_dual_view_inc_seed_250 \
@@ -139,7 +139,7 @@ python forward_pass.py \
 -data datasets/processed_reviews_Sports_and_Outdoors_5 \
 -pred_path pred/%s.%s \
 -exp predict_dual_view_inc_seed_250 \
--pretrained_model saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20191212-154843/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-2-total_batch-75000-joint-2.640 \
+-pretrained_model saved_model/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional.20220315-020304/ckpt/train_movie_dual_view_inc_seed_250.ml.copy.bi-directional-epoch-3-total_batch-13000-joint-0.693 \
 -seed 9527 \
 -batch_size 1 \
 -replace_unk \
