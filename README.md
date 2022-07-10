@@ -1,7 +1,7 @@
 This is our approach to combine conventional techniques like Evolutionary Algorithms, Rule Based Systems with the contemporary approaches like Deep Learning which require relatively compute intensive training.
 
 
-We are motivated by the work on those models wherein review summarization and sentiment classification are done in a joint framework and mutually benefit each other in improving the performance. Some portion of our source code are adapted from https://github.com/ChenRocks/fast_abs_rl, https://github.com/kenchan0226/dual_view_review_sum .
+We are motivated by the work on those models wherein review summarization and sentiment classification are done in a joint framework and mutually benefit each other in improving the performance. Portion of our source code are adapted from https://github.com/ChenRocks/fast_abs_rl, https://github.com/kenchan0226/dual_view_review_sum .
 
 ## Datasets Used
 
