@@ -1,4 +1,6 @@
-This is our approach to combine conventional techniques like Evolutionary Algorithms, Rule Based Systems with the contemporary approaches like Deep Learning which require relatively compute intensive training.
+This is our approach to combine conventional techniques like Evolutionary Algorithms, Rule Based Systems with the contemporary approaches like Deep Learning which require relatively compute intensive training. The repo contains the code associated with the paper published under the journal Knowledge and information systems, Springer.
+
+Link to the publication: https://www.springerprofessional.de/en/a-survey-on-review-summarization-and-sentiment-classification/23326888
 
 
 We are motivated by the work on those models wherein review summarization and sentiment classification are done in a joint framework and mutually benefit each other in improving the performance. Portion of our source code are adapted from https://github.com/ChenRocks/fast_abs_rl, https://github.com/kenchan0226/dual_view_review_sum .
